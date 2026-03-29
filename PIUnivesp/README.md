@@ -10,48 +10,48 @@ Desenvolvida com Node.js + Express (backend), HTML/CSS/JavaScript puro (frontend
 ```
 PIUnivesp/
 ├── backend/
-│   ├── config/
-│   │   └── database.js          # MySQL connection pool
-│   ├── controllers/
-│   │   ├── authController.js    # Register, login, profile
-│   │   ├── salonController.js   # Salon CRUD
-│   │   ├── serviceController.js # Service CRUD
-│   │   ├── professionalController.js
-│   │   └── bookingController.js # Booking logic + slots
-│   ├── models/
-│   │   ├── User.js
-│   │   ├── Salon.js
-│   │   ├── Service.js
-│   │   ├── Professional.js
-│   │   └── Booking.js           # Core scheduling logic
-│   ├── routes/
-│   │   ├── authRoutes.js
-│   │   ├── salonRoutes.js
-│   │   ├── serviceRoutes.js
-│   │   ├── professionalRoutes.js
-│   │   └── bookingRoutes.js
-│   ├── middleware/
-│   │   └── authMiddleware.js    # JWT verify + role guard
-│   ├── scripts/
-│   │   └── seed.js              # Seed admin & demo data
-│   ├── app.js                   # Express app setup
-│   ├── server.js                # Entry point
-│   ├── package.json
-│   └── .env.example
+│ ├── config/
+│ │ └── database.js # Pool de conexão MySQL
+│ ├── controllers/
+│ │ ├── authController.js # Registro, login, perfil
+│ │ ├── salonController.js # CRUD de salões
+│ │ ├── serviceController.js # CRUD de serviços
+│ │ ├── professionalController.js
+│ │ └── bookingController.js # Lógica de agendamento + horários
+│ ├── models/
+│ │ ├── User.js
+│ │ ├── Salon.js
+│ │ ├── Service.js
+│ │ ├── Professional.js
+│ │ └── Booking.js # Lógica principal de agenda
+│ ├── routes/
+│ │ ├── authRoutes.js
+│ │ ├── salonRoutes.js
+│ │ ├── serviceRoutes.js
+│ │ ├── professionalRoutes.js
+│ │ └── bookingRoutes.js
+│ ├── middleware/
+│ │ └── authMiddleware.js # Verificação JWT + controle de acesso
+│ ├── scripts/
+│ │ └── seed.js # Dados iniciais (admin + demo)
+│ ├── app.js # Configuração do Express
+│ ├── server.js # Ponto de entrada
+│ ├── package.json
+│ └── .env.example
 ├── frontend/
-│   ├── index.html               # Landing page
-│   ├── login.html               # Login / Register
-│   ├── booking.html             # 4-step booking flow
-│   ├── dashboard.html           # Admin dashboard
-│   ├── css/
-│   │   └── style.css
-│   └── js/
-│       ├── api.js               # Fetch wrapper + helpers
-│       ├── login.js
-│       ├── booking.js
-│       └── dashboard.js
+│ ├── index.html # Página inicial
+│ ├── login.html # Login / Cadastro
+│ ├── booking.html # Fluxo de agendamento (4 etapas)
+│ ├── dashboard.html # Painel administrativo
+│ ├── css/
+│ │ └── style.css
+│ └── js/
+│ ├── api.js # Wrapper de requisições
+│ ├── login.js
+│ ├── booking.js
+│ └── dashboard.js
 └── database/
-    └── schema.sql               # Full MySQL schema + seed data
+└── schema.sql # Schema completo + dados iniciais
 ```
 
 ---
