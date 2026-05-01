@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mustache — Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💈</text></svg>">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="navbar-brand">
+        <span class="scissor"></span> Mustache
+        <span class="badge badge-gold" style="margin-left:.5rem;font-size:.65rem">Admin</span>
+    </div>
+    <div class="navbar-nav">
+        <a href="/booking.html" class="nav-link">Agendar</a>
+        <a href="/dashboard.html" class="nav-link active">Dashboard</a>
+    </div>
+    <div class="nav-user" id="nav-user">
+        <div class="avatar" id="nav-avatar">?</div>
+        <span id="nav-name"></span>
+        <a href="#" class="nav-link" id="nav-logout" style="color:rgba(255,255,255,.5);font-size:.82rem">Sair</a>
+    </div>
+</nav>
+
+<!-- DASHBOARD LAYOUT -->
+<div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-section-title">Menu</div>
+
+        <div class="sidebar-item active" data-section="overview">
+            <span class="icon">📊</span> Visão Geral
+        </div>
+        <div class="sidebar-item" data-section="bookings">
+            <span class="icon">📅</span> Agendamentos
+        </div>
+
+        <div class="sidebar-section-title">Gerenciar</div>
+
+        <div class="sidebar-item" data-section="services">
+            <span class="icon">✂️</span> Serviços
+        </div>
+        <div class="sidebar-item" data-section="professionals">
+            <span class="icon">👤</span> Profissionais
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="dashboard-main">
+
+        <!-- ════ OVERVIEW ════ -->
+        <section id="section-overview" class="dash-section hidden">
+            <div class="dashboard-header">
+                <h2>Visão Geral</h2>
+                <p>Estatísticas do Salão Elegance</p>
+            </div>
+            <div class="stats-grid">
+                <div class="spinner"></div>
+            </div>
+        </section>
+
+        <!-- ════ BOOKINGS ════ -->
+        <section id="section-bookings" class="dash-section hidden">
+            <div class="dashboard-header">
+                <h2>Agendamentos</h2>
+                <p>Visualize e gerencie todos os agendamentos</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="card" style="margin-bottom:1.5rem">
+                <div class="card-body">
+                    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end">
+                        <div class="form-group" style="margin:0;flex:1;min-width:150px">
+                            <label>Filtrar por Data</label>
+                            <input type="date" id="filter-date" class="form-control">
+                        </div>
+                        <div class="form-group" style="margin:0;flex:1;min-width:150px">
+                            <label>Filtrar por Status</label>
+                            <select id="filter-status" class="form-control">
+                                <option value="">Todos</option>
+                                <option value="confirmado">Confirmado</option>
+                                <option value="cancelado">Cancelado</option>
+                                <option value="concluido">Concluído</option>
+                                <option value="pendente">Pendente</option>
+                            </select>
+                        </div>
+                        <button id="btn-filter-bookings" class="btn btn-primary" style="margin-bottom:0">
+                            🔍 Filtrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="card">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Cliente</th>
+                                <th>Serviço</th>
+                                <th>Profissional</th>
+                                <th>Data</th>
+                                <th>Horário</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookings-tbody">
+                            <tr><td colspan="8"><div class="spinner" style="margin:.5rem auto"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════ SERVICES ════ -->
+        <section id="section-services" class="dash-section hidden">
+            <div class="dashboard-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem">
+                <div>
+                    <h2>Serviços</h2>
+                    <p>Gerencie os serviços oferecidos</p>
+                </div>
+                <button class="btn btn-primary" id="btn-new-service">+ Novo Serviço</button>
+            </div>
+
+            <div class="card">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Preço</th>
+                                <th>Duração</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="services-tbody">
+                            <tr><td colspan="5"><div class="spinner" style="margin:.5rem auto"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════ PROFESSIONALS ════ -->
+        <section id="section-professionals" class="dash-section hidden">
+            <div class="dashboard-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem">
+                <div>
+                    <h2>Profissionais</h2>
+                    <p>Gerencie a equipe do salão</p>
+                </div>
+                <button class="btn btn-primary" id="btn-new-prof">+ Novo Profissional</button>
+            </div>
+
+            <div class="card">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Especialidades</th>
+                                <th>Horário</th>
+                                <th>Dias</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="professionals-tbody">
+                            <tr><td colspan="5"><div class="spinner" style="margin:.5rem auto"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

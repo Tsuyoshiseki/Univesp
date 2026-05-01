@@ -2,7 +2,7 @@ const Booking = require("../models/Booking");
 
 exports.createBooking = async (req, res) => {
   const { servico_id, profissional_id, data, hora } = req.body;
-  const usuario_id = req.user.id; // vem do verifyToken
+  const usuario_id = req.user.id;
 
   if (!servico_id || !profissional_id || !data || !hora) {
     return res.status(400).json({ error: "Todos os campos são obrigatórios" });
@@ -10,13 +10,11 @@ exports.createBooking = async (req, res) => {
 
   try {
     const conflicts = await Booking.checkAvailability(profissional_id, data, hora);
-
     if (conflicts.length > 0) {
       return res.status(409).json({ error: "Horário indisponível" });
     }
 
     await Booking.create({ usuario_id, servico_id, profissional_id, data_ag: data, hora });
-
     res.status(201).json({ message: "Agendamento realizado com sucesso" });
   } catch (err) {
     res.status(500).json({ error: "Erro ao criar agendamento", details: err.message });
@@ -43,16 +41,33 @@ exports.getMyBookings = async (req, res) => {
 
 exports.cancelBooking = async (req, res) => {
   const { id } = req.params;
-
   try {
     const result = await Booking.cancel(id, req.user.id);
-
     if (result.affectedRows === 0) {
-      return res.status(404).json({ error: "Agendamento não encontrado ou não pertence ao usuário" });
+      return res.status(404).json({ error: "Agendamento não encontrado" });
     }
-
     res.json({ message: "Agendamento cancelado" });
   } catch (err) {
     res.status(500).json({ error: "Erro ao cancelar agendamento", details: err.message });
+  }
+};
+
+exports.updateStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  const valid = ["confirmado", "concluido", "cancelado", "pendente"];
+  if (!valid.includes(status)) {
+    return res.status(400).json({ error: "Status inválido" });
+  }
+
+  try {
+    const result = await Booking.updateStatus(id, status);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Agendamento não encontrado" });
+    }
+    res.json({ message: "Status atualizado" });
+  } catch (err) {
+    res.status(500).json({ error: "Erro ao atualizar status", details: err.message });
   }
 };

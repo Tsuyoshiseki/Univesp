@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mustache — Agendar</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💈</text></svg>">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="navbar-brand">
+        <span class="scissor"></span> Mustache
+    </div>
+    <div class="navbar-nav">
+        <a href="/booking.html" class="nav-link active">Agendar</a>
+        <a href="/dashboard.html" id="nav-admin-link" class="nav-link" style="display:none">Dashboard</a>
+    </div>
+    <div class="nav-user" id="nav-user">
+        <div class="avatar" id="nav-avatar">?</div>
+        <span id="nav-name"></span>
+        <a href="#" class="nav-link" id="nav-logout" style="color:rgba(255,255,255,.5);font-size:.82rem">Sair</a>
+    </div>
+</nav>
+
+<main class="booking-container">
+
+    <!-- STEP INDICATORS -->
+    <div class="booking-steps">
+        <div class="step active" id="step-indicator-1">
+            <div class="step-circle">1</div>
+            <span class="step-label">Serviço</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="step-indicator-2">
+            <div class="step-circle">2</div>
+            <span class="step-label">Profissional</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="step-indicator-3">
+            <div class="step-circle">3</div>
+            <span class="step-label">Data / Hora</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="step-indicator-4">
+            <div class="step-circle">4</div>
+            <span class="step-label">Confirmar</span>
+        </div>
+    </div>
+
+    <!-- BOOKING FLOW WRAPPER -->
+    <div id="booking-flow">
+
+        <!-- STEP 1: Service selection -->
+        <div id="step-1" class="card">
+            <div class="card-header">
+                <h3>✂️ Escolha o Serviço</h3>
+                <span class="badge badge-gold">Passo 1 de 4</span>
+            </div>
+            <div class="card-body">
+                <div id="step-1-content">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2: Professional selection -->
+        <div id="step-2" class="card hidden">
+            <div class="card-header">
+                <h3>👤 Escolha o Profissional</h3>
+                <span class="badge badge-gold">Passo 2 de 4</span>
+            </div>
+            <div class="card-body">
+                <div id="step-2-content">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3: Date & time -->
+        <div id="step-3" class="card hidden">
+            <div class="card-header">
+                <h3>📅 Escolha a Data e Horário</h3>
+                <span class="badge badge-gold">Passo 3 de 4</span>
+            </div>
+            <div class="card-body">
+                <div id="step-3-content">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 4: Confirmation -->
+        <div id="step-4" class="card hidden">
+            <div class="card-header">
+                <h3>✅ Confirmar Agendamento</h3>
+                <span class="badge badge-gold">Passo 4 de 4</span>
+            </div>
+            <div class="card-body">
+                <div id="step-4-content"></div>
+            </div>
+        </div>
+
+        <!-- Navigation buttons -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem">
+            <button class="btn btn-outline hidden" id="btn-back">← Voltar</button>
+            <div style="flex:1"></div>
+            <button class="btn btn-primary btn-lg" id="btn-next" disabled>Continuar →</button>
+        </div>
+
+    </div><!-- /booking-flow -->
+
+    <!-- MY BOOKINGS SECTION -->
+    <div id="my-bookings-section" style="margin-top:2.5rem">
+        <div class="card">
+            <div class="card-header">
+                <h3>📋 Meus Agendamentos</h3>
+                <button class="btn btn-sm btn-outline" id="show-my-bookings">Atualizar</button>
+            </div>
+            <div class="card-body" id="my-bookings-panel">
+                <p class="text-muted text-center" style="padding:1.5rem">
+                    Clique em "Atualizar" para ver seus agendamentos.
+                </p>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script src="/js/api.js"></script>
+<script src="/js/booking.js"></script>
+</body>
+</html>

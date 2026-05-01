@@ -1,14 +1,12 @@
-// scripts/seed.js
-require('dotenv').config({ path: '../.env' });
+// scripts/seed.js — PostgreSQL/Supabase
+require('dotenv').config();
 const bcrypt = require('bcrypt');
-const mysql  = require('mysql2/promise');
+const { Pool } = require('pg');
 
 async function seed() {
-  const db = await mysql.createConnection({
-    host:     process.env.DB_HOST     || 'localhost',
-    user:     process.env.DB_USER     || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME     || 'univesp',
+  const db = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
   });
 
   console.log('Seeding database...');
@@ -16,25 +14,24 @@ async function seed() {
   const adminHash  = await bcrypt.hash('admin123',   10);
   const clientHash = await bcrypt.hash('cliente123', 10);
 
-  await db.execute(
+  await db.query(
     `INSERT INTO usuarios (nome, email, senha, tipo)
-     VALUES (?, ?, ?, 'admin')
-     ON DUPLICATE KEY UPDATE senha = VALUES(senha), tipo = 'admin'`,
+     VALUES ($1, $2, $3, 'admin')
+     ON CONFLICT (email) DO UPDATE SET senha = EXCLUDED.senha, tipo = 'admin'`,
     ['Administrador', 'admin@salon.com', adminHash]
   );
 
-  await db.execute(
+  await db.query(
     `INSERT INTO usuarios (nome, email, senha, tipo)
-     VALUES (?, ?, ?, 'cliente')
-     ON DUPLICATE KEY UPDATE senha = VALUES(senha)`,
+     VALUES ($1, $2, $3, 'cliente')
+     ON CONFLICT (email) DO UPDATE SET senha = EXCLUDED.senha`,
     ['João Cliente', 'cliente@salon.com', clientHash]
   );
 
-  // Salão padrão (necessário para criar serviços)
-  await db.execute(
-    `INSERT INTO saloes (id, nome, endereco, telefone, horario_abertura, horario_fechamento)
-     VALUES (1, 'Salão Principal', 'Rua Principal, 1', '(11) 99999-0000', '08:00:00', '18:00:00')
-     ON DUPLICATE KEY UPDATE nome = VALUES(nome)`,
+  await db.query(
+    `INSERT INTO saloes (nome, endereco, telefone, horario_abertura, horario_fechamento)
+     VALUES ('Salão Principal', 'Rua Principal, 1', '(11) 99999-0000', '08:00:00', '18:00:00')
+     ON CONFLICT DO NOTHING`
   );
 
   console.log('Seed completo!');
@@ -46,6 +43,6 @@ async function seed() {
 }
 
 seed().catch(err => {
-  console.error('Seed falhou:', err.message);
+  console.error('Seed falhou:', err);
   process.exit(1);
 });
